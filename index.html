@@ -31,6 +31,152 @@
 				</section>
 
 				<section>
+					<section>
+						<h1>Divide</h1>
+						<h4>the code</h4>
+						<h1>Conquer</h1>
+						<h4>maintainability</h4>
+					</section>
+					<section>
+						<h5>We can divide our code in many ways, sometimes this division is called:</h5>
+						<ul>
+							<li>Design Pattern</li>
+							<li>Architectural Design Patterns</li>
+						</ul>
+					</section>
+					<section>
+						In the end, everything is about how we can organize our code to make it more understandable,
+						maintainable and team-friendly
+					</section>
+				</section>
+
+				<section data-auto-animate>
+					<h2 data-id="code-title">Flask minimal application</h2>
+					<pre data-id="code-animation">
+						<code class="python" data-trim data-line-numbers>
+							from flask import Flask
+
+							app = Flask(__name__)
+
+							@app.route('/')
+							def hello_world():
+							  return 'Hello, World!'
+						</code>
+					</pre>
+				</section>
+				<section data-auto-animate>
+					<h2 data-id="code-title">Flask + Database</h2>
+					<pre data-id="code-animation">
+						<code class="python" data-trim data-line-numbers="|1-5|7-13|15-21">
+							from flask import Flask
+
+							app = Flask(__name__)
+							app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////.db'
+							db = SQLAlchemy(app)
+
+							class User(db.Model):
+							  id = db.Column(db.Integer, primary_key=True)
+							  username = db.Column(db.String(80), unique=True, nullable=False)
+							  email = db.Column(db.String(120), unique=True, nullable=False)
+
+							  def __repr__(self):
+							    return '&lt;User %r&gt;' % self.username
+							
+							@app.route('/')
+							def hello_world():
+							  return 'Hello, World!'
+							
+							@app.route('/users', methods=['GET'])
+							def get_users():
+							  return User.query.all()
+						</code>
+					</pre>
+				</section>
+				<section data-auto-animate>
+					<h3 data-id="code-title">Flask + Database + Marshmallow</h3>
+					<pre data-id="code-animation">
+						<code class="python" data-trim data-line-numbers="|9-15|29-45|31-36|38|40-45">
+							from flask import Flask, request
+							from flask_sqlalchemy import SQLAlchemy
+							from marshmallow import Schema, fields, ValidationError
+
+							app = Flask(__name__)
+							app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////.db'
+							db = SQLAlchemy(app)
+
+							class User(db.Model):
+							  id = db.Column(db.Integer, primary_key=True)
+							  username = db.Column(db.String(80), unique=True, nullable=False)
+							  email = db.Column(db.String(120), unique=True, nullable=False)
+
+							  def __repr__(self):
+							    return '&lt;User %r&gt;' % self.username
+							
+							class UserSchema(Schema):
+							  username = fields.Str()
+							  email = fields.Email()
+							
+							@app.route('/')
+							def hello_world():
+							  return 'Hello, World!'
+							
+							@app.route('/users', methods=['GET'])
+							def get_users():
+							  return User.query.all()
+							
+							@app.route('/users', methods=['POST'])
+							def create_user():
+							  user_data = request.json
+
+							  try:
+							    validated_user_data = UserSchema().load(user_data)
+							  except ValidationError as err:
+							    return err.messages, 400
+                                
+							  # We can have business logic here to validate something about the user
+								
+							  user = User(validated_user_data.username, validated_user_data.email)
+                              
+							  db.session.add(user)
+							  db.session.commit()
+							  
+							  return user
+						</code>
+					</pre>
+				</section>
+
+				<section>
+					<section>
+						<p>Here, I'm going to talk about Clean Architecture</p>
+						<img src="images/clean-architecture.jpg" alt="Clean Architecture Image" />
+					</section>
+					<section>
+						<h1>TODO</h1>
+						<ul>
+							<li>Entities: Business entities</li>
+							<li>Use Case: Business Logic</li>
+							<li>Interface Adapters:</li>
+							<li>Frameworks and Drivers:</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<h2>Patterns usually mean I have run out of language</h2>
+				</section>
+
+				<section>
+					<h4>References</h4>
+					<ul>
+						<li>
+							<a href="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html">
+								The Clean Architecture by Robert C. Martin (Uncle Bob)
+							</a>
+						</li>
+					</ul>
+				</section>
+
+				<section>
 					<h2>Thanks!</h2>
 				</section>
 			</div>
