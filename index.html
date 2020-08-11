@@ -36,6 +36,16 @@
 						<h4>the code</h4>
 						<h1>Conquer</h1>
 						<h4>maintainability</h4>
+
+						<aside class="notes">
+							<p>Why?</p>
+
+							<ul>
+								<li>More complex systems (business logic)</li>
+								<li>Time is money</li>
+								<li>Reduce bugs</li>
+							</ul>
+						</aside>
 					</section>
 					<section>
 						<h5>We can divide our code in many ways, sometimes this division is called:</h5>
@@ -43,10 +53,38 @@
 							<li>Design Pattern</li>
 							<li>Architectural Design Patterns</li>
 						</ul>
+
+						<aside class="notes">
+							<p><strong>Examples</strong></p>
+
+							<p>Design Pattern:</p>
+							<ul>
+								<li>Singleton</li>
+								<li>Facede</li>
+								<li>Chain of Responsibility</li>
+							</ul>
+
+							<p>Architectural Design Patterns:</p>
+							<ul>
+								<li>MVC (Model, View, Controller)</li>
+								<li>MVP (Model View Presenter)</li>
+							</ul>
+						</aside>
 					</section>
 					<section>
 						In the end, everything is about how we can organize our code to make it more understandable,
 						maintainable and team-friendly
+
+						<aside class="notes">
+							We can organize using:
+
+							<ul>
+								<li>functions</li>
+								<li>classes</li>
+								<li>files</li>
+								<li>modules</li>
+							</ul>
+						</aside>
 					</section>
 				</section>
 
@@ -63,6 +101,10 @@
 							  return 'Hello, World!'
 						</code>
 					</pre>
+
+					<aside class="notes">
+						<p>A commom example that everyone can find in the internet</p>
+					</aside>
 				</section>
 				<section data-auto-animate>
 					<h2 data-id="code-title">Flask + Database</h2>
@@ -91,6 +133,14 @@
 							  return User.query.all()
 						</code>
 					</pre>
+
+					<aside class="notes">
+						<ol>
+							<li>Application setup</li>
+							<li>Database model</li>
+							<li>Application routes</li>
+						</ol>
+					</aside>
 				</section>
 				<section data-auto-animate>
 					<h3 data-id="code-title">Flask + Database + Marshmallow</h3>
@@ -146,15 +196,38 @@
 							  return user
 						</code>
 					</pre>
+
+					<aside class="notes">
+						<ol>
+							<li>Marshmallow schema class</li>
+							<li>
+								Create user route
+								<ol>
+									<li>Request validation</li>
+									<li>Bussines logic validation</li>
+									<li>Database interaction</li>
+									<li>Return saved user</li>
+								</ol>
+							</li>
+						</ol>
+					</aside>
 				</section>
 
 				<section>
 					<section>
 						<h3>If you do not choose the application architecture other people will choose for you</h3>
+
+						<aside class="notes">
+							Initially we don't care about what's the architecture, this is the worst decision we can make
+						</aside>
 					</section>
 					<section>
 						<h4>Sometimes your framework will choose for you, see the big example here:</h4>
 						<img src="images/django-logo.png" />
+
+						<aside class="notes">
+							Django enforces the <strong>MVC</strong> architecture
+						</aside>
 					</section>
 					<section>
 						<p>
@@ -168,9 +241,27 @@
 					<section>
 						<p>Here, I'm going to talk about:</p>
 						<h3>Clean Architecture</h3>
+
+						<aside class="notes">
+							Proposed by Robert Martin aka Uncle Bob in 2012
+						</aside>
 					</section>
 					<section>
 						<img src="images/clean-architecture.jpg" alt="Clean Architecture Image" />
+
+						<aside class="notes">
+							<p>
+								Firstly, don't care about if this architecture will be applied to a monolith, microservice or nanoservice.
+								This is just a schema to show the idea
+							</p>
+
+							<ul>
+								<li><strong>Entities:</strong> </li>
+								<li><strong>Use Cases:</strong> </li>
+								<li><strong>Interface Adapters:</strong> </li>
+								<li><strong>Frameworks & Drivers:</strong> </li>
+							</ul>
+						</aside>
 					</section>
 					<section>
 						<blockquote cite="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html">
@@ -179,10 +270,19 @@
 							However, The Dependency Rule always applies...&rdquo;
 							(Uncle Bob)
 						</blockquote>
+
+						<aside class="notes">
+							<p>Be pragmatic, not dogmatic.</p>
+							<p>Addapt the architecture to your problem.</p>
+						</aside>
 					</section>
 					<section>
 						<h4>I will use this schema instead of the first one</h4>
 						<img src="images/clean-architecture-real-life-clean-architecture.jpg" />
+
+						<aside class="notes">
+							<p>New circle, <strong>Configuration</strong></p>
+						</aside>
 					</section>
 				</section>
 
@@ -256,6 +356,10 @@
 						└── setup.cfg
 						```
 					</textarea>
+
+					<aside class="notes">
+						<p>Each python module will be an architecture component</p>
+					</aside>
 				</section>
 
 				<section>
@@ -268,6 +372,14 @@
 							it's basically a container to help us with Railway Oriented Programming paradigm.
 						</p>
 						<img src="images/railway-oriented-programming-example.png" />
+
+						<aside class="notes">
+							<p>Basically our code flow can take two paths:</p>
+							<ol>
+								<li><strong>Success</strong></li>
+								<li><strong>Failure</strong></li>
+							</ol>
+						</aside>
 					</section>
 					<section>
 						<p>Example extracted from <strong>returns</strong> documentation</p>
