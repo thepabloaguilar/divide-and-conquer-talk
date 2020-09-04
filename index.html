@@ -281,6 +281,72 @@
 						</aside>
 					</section>
 					<section>
+						<h1>Entities</h1>
+
+						<aside class="notes">
+							<ul>
+								<li>Enterprise Business Rules</li>
+								<li>They wouldn't be affected by external changes (e.g. page navigation, or security)</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h1>Use Cases</h1>
+
+						<aside class="notes">
+							<p>All of the business rules live here.</p>
+							<p>
+								These use cases orchestrate the flow of data to and from the entities,
+								and direct those entities to use their enterprise wide business rules
+								to achieve the goals of the use case. (Extracted from Uncle Bob's blog post)
+							</p>
+							<ul>
+								<li>Application Business Rules</li>
+								<li>Interfaces (e.g. Dataprovider Interface)</li>
+								<li>Business Exceptions</li>
+								<li>They wouldn't be affected by changes in database/presentation layer</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>
+							Enterprise Business Rules
+							<br>vs<br>
+							Application Business Rules
+						</h2>
+
+						<aside class="notes">
+							<p>Enterprise Business Rules: Present in more than one application</p>
+							<p>Application Business Rules: Present in just one application</p>
+						</aside>
+					</section>
+					<section>
+						<h2>Interface Adapters</h2>
+
+						<aside class="notes">
+							<p>In this layer we implement our interfaces that were declared in the use case layer</p>
+							<p>
+								The software in this layer is a set of adapters that convert data from the format
+								most convenient for the use cases and entities, to the format most convenient
+								for some external agency such as the Database or the Web. (Extracted from Uncle Bob's blog post)
+							</p>
+						</aside>
+					</section>
+					<section>
+						<h2>Frameworks & Drivers</h2>
+						
+						<aside class="notes">
+							<p>
+								The outermost layer is generally composed of frameworks and tools such as the Database,
+								the Web Framework, etc. Generally you don’t write much code in this layer other than glue code
+								that communicates to the next circle inwards. (Extracted from Uncle Bob's blog post)
+							</p>
+						</aside>
+					</section>
+					<section>
+						<h1>Dependency Rule</h1>
+					</section>
+					<section>
 						<blockquote cite="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html">
 							&ldquo;... the circles are schematic. You may find that you need more than just these four.
 							There’s no rule that says you must always have just these four.
@@ -293,14 +359,6 @@
 							<p>Addapt the architecture to your problem.</p>
 						</aside>
 					</section>
-					<section>
-						<h4>I will use this schema instead of the first one</h4>
-						<img src="images/clean-architecture-real-life-clean-architecture.jpg" />
-
-						<aside class="notes">
-							<p>New circle, <strong>Configuration</strong></p>
-						</aside>
-					</section>
 				</section>
 
 				<section>
@@ -308,7 +366,21 @@
 				</section>
 
 				<section>
-					<h4>We going to use these frameworks/libraries</h4>
+					<section>
+						<h4>I will use this schema instead of the first one</h4>
+						<img src="images/clean-architecture-real-life-clean-architecture.jpg" />
+
+						<aside class="notes">
+							<p>Essentially is the same schema, but with a more practical view</p>
+						</aside>
+					</section>
+					<section>
+						<h2>New layer "Configuration"</h2>
+					</section>
+				</section>
+
+				<section>
+					<p><strong>We're going to use these frameworks/libraries</strong></p>
 					<ul>
 						<li>
 							<a href="https://flask.palletsprojects.com/en/1.1.x/">
@@ -336,19 +408,9 @@
 							</a>, to help us write better code
 						</li>
 						<li>
-							<a href="https://docs.pytest.org/en/latest/">
-								pytest
-							</a>, for tests
-						</li>
-						<li>
 							<a href="http://mypy-lang.org/">
 								mypy
 							</a>, for Static Type Checking
-						</li>
-						<li>
-							<a href="https://python-poetry.org/">
-								Poetry
-							</a>, for Dependency Management
 						</li>
 					</ul>
 				</section>
