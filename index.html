@@ -366,6 +366,56 @@
 				</section>
 
 				<section>
+					<section>
+						<h4>Few explanations before we start the code</h4>
+					</section>
+					<section>
+						<h4>I will use this schema instead of the first one</h4>
+						<img src="images/clean-architecture-real-life-clean-architecture.jpg" />
+
+						<aside class="notes">
+							<p>Essentially is the same schema, but with a more practical view</p>
+							<p>New layer "Configuration"</p>
+						</aside>
+					</section>
+					<section>
+						<p>
+							We'll use <strong>Result</strong> container from <strong>returns</strong> library,
+							it's basically a container to help us with Railway Oriented Programming paradigm.
+						</p>
+						<img src="images/railway-oriented-programming-example.png" />
+
+						<aside class="notes">
+							<p>Basically our code flow can take two paths:</p>
+							<ol>
+								<li><strong>Success</strong></li>
+								<li><strong>Failure</strong></li>
+							</ol>
+						</aside>
+					</section>
+					<section>
+						<p>Example extracted from <strong>returns</strong> documentation</p>
+						<pre data-id="code-animation">
+							<code class="python" data-trim data-line-numbers>
+								from returns.result import Result, Success, Failure
+
+								def find_user(user_id: int) -> Result['User', str]:
+								  user = User.objects.filter(id=user_id)
+								  if user.exists():
+								    return Success(user[0])
+								  return Failure('User was not found')
+
+								user_search_result = find_user(1)
+								# => Success(User{id: 1, ...})
+
+								user_search_result = find_user(0)  # id 0 does not exist!
+								# => Failure('User was not found')
+							</code>
+						</pre>
+					</section>
+				</section>
+
+				<section>
 					<p><strong>We're going to use these frameworks/libraries</strong></p>
 					<ul>
 						<li>
@@ -425,56 +475,6 @@
 					<aside class="notes">
 						<p>Each python module will be an architecture component</p>
 					</aside>
-				</section>
-
-				<section>
-					<section>
-						<h4>Few explanations before we start the code</h4>
-					</section>
-					<section>
-						<h4>I will use this schema instead of the first one</h4>
-						<img src="images/clean-architecture-real-life-clean-architecture.jpg" />
-
-						<aside class="notes">
-							<p>Essentially is the same schema, but with a more practical view</p>
-							<p>New layer "Configuration"</p>
-						</aside>
-					</section>
-					<section>
-						<p>
-							We'll use <strong>Result</strong> container from <strong>returns</strong> library,
-							it's basically a container to help us with Railway Oriented Programming paradigm.
-						</p>
-						<img src="images/railway-oriented-programming-example.png" />
-
-						<aside class="notes">
-							<p>Basically our code flow can take two paths:</p>
-							<ol>
-								<li><strong>Success</strong></li>
-								<li><strong>Failure</strong></li>
-							</ol>
-						</aside>
-					</section>
-					<section>
-						<p>Example extracted from <strong>returns</strong> documentation</p>
-						<pre data-id="code-animation">
-							<code class="python" data-trim data-line-numbers>
-								from returns.result import Result, Success, Failure
-
-								def find_user(user_id: int) -> Result['User', str]:
-								  user = User.objects.filter(id=user_id)
-								  if user.exists():
-								    return Success(user[0])
-								  return Failure('User was not found')
-
-								user_search_result = find_user(1)
-								# => Success(User{id: 1, ...})
-
-								user_search_result = find_user(0)  # id 0 does not exist!
-								# => Failure('User was not found')
-							</code>
-						</pre>
-					</section>
 				</section>
 
 				<section>
