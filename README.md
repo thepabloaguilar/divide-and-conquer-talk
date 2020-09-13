@@ -7,5 +7,6 @@
 ```sh
 docker-compose up -d
 poetry install
+FLASK_APP="$(pwd)/divide_conquer/boot.py" flask initdb
 FLASK_APP="$(pwd)/divide_conquer/boot.py" flask run
 ```
