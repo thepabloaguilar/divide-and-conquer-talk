@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		
+
 		<title>Divide and Conquer</title>
 
 		<meta name="description" content="Lecture about Clean Architecture">
@@ -10,7 +10,7 @@
 
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-		
+
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<link rel="stylesheet" href="dist/reset.css">
@@ -140,11 +140,11 @@
 
 							  def __repr__(self):
 							    return '&lt;User %r&gt;' % self.username
-							
+
 							@app.route('/')
 							def hello_world():
 							  return 'Hello, World!'
-							
+
 							@app.route('/users', methods=['GET'])
 							def get_users():
 							  return User.query.all()
@@ -178,19 +178,19 @@
 
 							  def __repr__(self):
 							    return '&lt;User %r&gt;' % self.username
-							
+
 							class UserSchema(Schema):
 							  username = fields.Str()
 							  email = fields.Email()
-							
+
 							@app.route('/')
 							def hello_world():
 							  return 'Hello, World!'
-							
+
 							@app.route('/users', methods=['GET'])
 							def get_users():
 							  return User.query.all()
-							
+
 							@app.route('/users', methods=['POST'])
 							def create_user():
 							  user_data = request.json
@@ -199,7 +199,7 @@
 							    validated_user_data = UserSchema().load(user_data)
 							  except ValidationError as err:
 							    return err.messages, 400
-                                
+
 							  # We can have business logic here to validate something about the user
 							  if is_valid_user(validated_user_data):
 							    user = User(validated_user_data.username, validated_user_data.email)
@@ -209,7 +209,7 @@
 							    except Exception as ex:
 							      db.session.rollback()
 							      return str(ex), 503
-							  
+
 							  return user
 						</code>
 					</pre>
@@ -342,7 +342,7 @@
 					</section>
 					<section>
 						<h2>Frameworks & Drivers</h2>
-						
+
 						<aside class="notes">
 							<p>
 								The outermost layer is generally composed of frameworks and tools such as the Database,
