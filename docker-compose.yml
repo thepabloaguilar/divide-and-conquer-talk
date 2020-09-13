@@ -1,0 +1,12 @@
+version: '3.0'
+
+services:
+  divide-conquer-db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: divide_conquer
+      POSTGRES_PASSWORD: divide_conquer
+      POSTGRES_DB: divide_conquer
+    ports:
+      - 5432:5432
