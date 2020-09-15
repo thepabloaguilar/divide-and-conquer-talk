@@ -70,7 +70,12 @@ def unwrap_result_response(
             return (
                 function(*args, **kwargs)
                 .map(lambda response: (response, success_status_code))
-                .fix(lambda failure: (failure, 503))
+                .fix(
+                    lambda failure: (
+                        str(failure) if isinstance(failure, Exception) else failure,
+                        503,
+                    )
+                )
                 .unwrap()
             )
 
