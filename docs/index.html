@@ -105,6 +105,14 @@
 					</section>
 				</section>
 
+				<section>
+					<h3>Here, I'm going to talk about:</h3>
+					<ul>
+						<li><h4>Architectural Design Pattern</h4></li>
+						<li><h4>Railway Oriented Programming</h4></li>
+					</ul>
+				</section>
+
 				<section data-auto-animate>
 					<h2 data-id="code-title">Flask minimal application</h2>
 					<pre data-id="code-animation">
@@ -255,14 +263,6 @@
 				</section>
 
 				<section>
-					<h3>Here, I'm going to talk about:</h3>
-					<ul>
-						<li><h4>Clean Architecture</h4></li>
-						<li><h4>Railway Oriented Programming</h4></li>
-					</ul>
-				</section>
-
-				<section>
 					<section>
 						<h2>Clean Architecture</h2>
 
@@ -367,6 +367,44 @@
 							<p>Addapt the architecture to your problem.</p>
 						</aside>
 					</section>
+					<section>
+						<h2>Benefits</h2>
+						<ul>
+							<li>Frameworks are isolated</li>
+							<li>We have a clear business logic</li>
+							<li>Good for monolith</li>
+							<li>Easy to test</li>
+						</ul>
+
+						<aside class="notes">
+							<ul>
+								<li>Everything outside entities and use cases is just a detail</li>
+								<li>We don't care what frameworks we'll use web framework is a detail</li>
+								<li>Our use case don't need to know if our dataprovider is a database or a rest api</li>
+								<li>All of our business logic is in the use case</li>
+								<li>
+									Using clean architecture for a monolith is a good idea,
+									later will be easier to transform any components in a microservice
+								</li>
+								<li>It's easy to test because we don't have interdependencies</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Cons</h2>
+						<ul>
+							<li>Too abstract</li>
+							<li>Code duplication</li>
+						</ul>
+
+						<aside class="notes">
+							<p>
+								We have many abstraction decision to make (e.g. where do we have to put the authentication).
+							</p>
+							<p>We need to have a mature team</p>
+							<p>Code duplication example: mapping an entity to a database model</p>
+						</aside>
+					</section>
 				</section>
 
 				<section>
@@ -378,6 +416,9 @@
 						</aside>
 					</section>
 					<section>
+						<h2>Error Handling</h2>
+					</section>
+					<section>
 						<h1>Paths</h1>
 
 						<img src="images/railway-oriented-programming-example.png" />
@@ -385,9 +426,114 @@
 						<aside class="notes">
 							<p>Basically our code flow can take two paths:</p>
 							<ol>
-								<li><strong>Success</strong></li>
-								<li><strong>Failure</strong></li>
+								<li><strong>Success (e.g. HTTP request, database are working)</strong></li>
+								<li><strong>Failure (e.g. Something goes wrong)</strong></li>
 							</ol>
+						</aside>
+					</section>
+					<section>
+						<pre data-id="code-animation">
+							<code class="pycon" data-trim data-line-numbers>
+								>>> def parse(arg: str) -> int:
+								...   return int(arg)
+
+								>>> parse('42') # will work correctly
+								42
+
+								>>> parse('string') # will break
+								Traceback (most recent call last):
+								  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+								ValueError: invalid literal for int() with base 10: 'string'
+							</code>
+						</pre>
+
+						<aside class="notes">
+							<p>Codes always can fail</p>
+						</aside>
+					</section>
+					<section>
+						<pre data-id="code-animation">
+							<code class="pycon" data-trim data-line-numbers>
+								>>> def parse(arg: str) -> int:
+								...   return int(arg)
+
+								>>> try:
+								...   print(parse('42')) # will work correctly
+								...   print(parse('string')) # will break
+								... except ValueError:
+								...   print('failure path')
+								...
+								42
+								failure path
+							</code>
+						</pre>
+
+						<aside class="notes">
+							<p>To deal with fails we generally use <strong>try...except</strong></p>
+						</aside>
+					</section>
+					<section>
+						<pre data-id="code-animation">
+							<code class="pycon" data-trim data-line-numbers>
+								>>> from typing import Union
+
+								>>> def parse(arg: str) -> Union[int, ValueError]:
+								...   if arg.isnumeric()
+								...     return int(arg)
+								...   return ValueError('arg is not numeric')
+
+								>>> print(parse('42'))
+								42
+								>>> parse('string')
+								ValueError('arg is not numeric')
+
+								>>> parsed = parse('10')
+								>>> if not isinstance(parsed, ValueError):
+								...   pass
+							</code>
+						</pre>
+
+						<aside class="notes">
+							<p>We can improve it a bit</p>
+						</aside>
+					</section>
+					<section>
+						<pre data-id="code-animation">
+							<code class="python" data-trim data-line-numbers>
+								from typing import Any
+
+								def example() -> Any:
+								  result = action_one()
+								  if not isinstance(result, Exception):
+								    result = action_two(result)
+								    if not isinstance(result, Exception):
+								      result = action_three(result)
+								      if not isinstance(result, Exception):
+								        return result
+								      return 'action_three was bad'
+								    return 'action_two was bad'
+								  return 'action_one was bad'
+							</code>
+						</pre>
+
+						<aside class="notes">
+							<p>If we follow the pattern from previous slide we'll have something like this</p>
+						</aside>
+					</section>
+					<section>
+						<p><mark>returns</mark> by <strong>dry-python</strong></p>
+					</section>
+					<section>
+						<h2>Result</h2>
+						<ul>
+							<li>Success</li>
+							<li>Failure</li>
+						</ul>
+
+						<aside class="notes">
+							<p>
+								returns provides the result container, with the two abstraction paths (success and failure)
+							</p>
 						</aside>
 					</section>
 					<section>
@@ -409,6 +555,80 @@
 								# => Failure('User was not found')
 							</code>
 						</pre>
+
+						<aside class="notes">
+							<p>Explain about the result type annotation</p>
+						</aside>
+					</section>
+					<section>
+						<pre data-id="code-animation">
+							<code class="pycon" data-trim data-line-numbers>
+								>>> from returns.result import safe
+
+								>>> @safe
+								... def parse(arg: str) -> int:  # ResultE[int]
+								...   return int(arg)
+
+								>>> print(parse('42'))
+								&lt;Success: 42&gt;
+
+								>>> print(parse('string'))
+								&lt;Failure: invalid literal for int() with base 10: 'string'&gt;
+							</code>
+						</pre>
+
+						<aside class="notes">
+							<p>To deal with fails we generally use <strong>try...except</strong></p>
+						</aside>
+					</section>
+					<section>
+						<pre data-id="code-animation">
+							<code class="python" data-trim data-line-numbers>
+								from returns.result import Result
+
+								def example() -> Result[Any, Exception]:  # ResultE[Any]
+								  return (
+								    action_one()
+								    .bind(action_two)
+								    .bind(action_tree)
+								  )
+							</code>
+						</pre>
+
+						<aside class="notes">
+							<p>function <strong>example</strong> writen using result</p>
+						</aside>
+					</section>
+					<section>
+						<h4>You can find this approach in many languages</h4>
+						<ul>
+							<li><mark>Ruby</mark> has the <strong>dry-monads</strong> lib</li>
+							<li><mark>Rust</mark> has its own <strong>Result</strong> type</li>
+							<li><mark>TypeScript</mark> has the <strong>fp-ts</strong> lib</li>
+							<li><mark>Scala</mark> has <strong>Either</strong></li>
+							<li><mark>Kotlin</mark> has the <strong>arrow</strong> lib</li>
+						</ul>
+
+						<aside class="notes">
+							<p>Scala has the <strong>cats</strong> lib too</p>
+						</aside>
+					</section>
+					<section>
+						<h2>Why am I talking about this?</h2>
+
+						<aside class="notes">
+							<p>It's a good approach to make the comunication between components</p>
+							<p>
+								An exception is not just an exception, it's a huge side effect with expensive CPU cycles
+								unpredictable and disconnected control flow
+							</p>
+						</aside>
+					</section>
+					<section>
+						<blockquote cite="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html">
+							&ldquo;Exceptions are just like notorious goto statements that torn the fabric of our programs.&rdquo;
+							(Nikita Sobolevn)
+						</blockquote>
 					</section>
 				</section>
 
@@ -427,12 +647,12 @@
 				</section>
 
 				<section>
-					<p><strong>We're going to use these frameworks/libraries</strong></p>
+					<p><strong>I've used these frameworks/libraries</strong></p>
 					<ul>
 						<li>
 							<a href="https://flask.palletsprojects.com/en/1.1.x/">
 								Flask
-							</a>, to serve our Application
+							</a>, to serve the Application
 						</li>
 						<li>
 							<a href="https://punq.readthedocs.io/en/latest/">
@@ -488,9 +708,7 @@
 					</aside>
 				</section>
 
-				<section>
-					<h1>Let's code!!</h1>
-				</section>
+				<section data-background="images/talk-is-cheap-show-me-the-code.jpg"></section>
 
 				<section>
 					<section>
